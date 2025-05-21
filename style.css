@@ -829,10 +829,176 @@ body.view-control-buttons .viewControlButton {
   margin-left: 105px;
 }
 
+
+[data-source] {
+    display: inline-block;
+    cursor: pointer;
+}
+
+#iframeselect {
+    position: absolute;
+    width: 120px;
+    margin-left: -140px;
+    border-radius: 10px;
+    overflow: hidden;
+    opacity: 0.95;
+}
+
+
+#iframeselect li{
+    width: 100%;
+    padding: 1em;
+    font-size: 12px;
+    text-align: center;
+    background-color: #444;
+    color: #ddd;
+    transition: .3s background-color ease-in-out,
+        .3s color ease-in-out;
+}
+
+#iframeselect li:hover{
+    background-color: #666;
+    color: #fff;
+}
+
+.videowall {
+}
+
+.videowall {
+    background-color: #111;
+    /*background-color: #f00;*/
+    position: relative;
+    width: 560px;
+    height: 315px;
+}
+
+.videowall .message {
+    text-align: center;
+    /*padding-top: 190px;*/
+    font-size: 50px;
+    color: #ddd;
+}
+
+#deviceOrientationToggle {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 40px;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    background-color: rgb(103,115,131);
+    background-color: rgba(103,115,131,0.8);
+}
+
+.mobile #deviceOrientationToggle {
+    width: 50px;
+    height: 50px;
+    right: 50px;
+}
+
+/* If there is a fullscreen button, autorotate must placed a bit to the left */
+body.fullscreen-enabled #deviceOrientationToggle {
+    right: 80px;
+}
+
+body.fullscreen-enabled.mobile #deviceOrientationToggle {
+    right: 100px;
+}
+
+#deviceOrientationToggle .icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+}
+
+.mobile #deviceOrientationToggle .icon {
+    top: 10px;
+    right: 10px;
+}
+
+#deviceOrientationToggle .icon.on {
+    display: none;
+}
+
+#deviceOrientationToggle .icon.off {
+    display: block;
+}
+
+#deviceOrientationToggle.enabled .icon.on {
+    display: block;
+}
+
+#deviceOrientationToggle.enabled .icon.off {
+    display: none;
+}
+
+#mapToggle {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 80px;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    background-color: rgb(103,115,131);
+    background-color: rgba(103,115,131,0.8);
+}
+
+.mobile #mapToggle {
+    width: 50px;
+    height: 50px;
+    right: 100px;
+}
+
+/* If there is a fullscreen button, autorotate must placed a bit to the left */
+body.fullscreen-enabled #mapToggle {
+    right: 120px;
+}
+
+body.fullscreen-enabled.mobile #mapToggle {
+    right: 150px;
+}
+
+#mapToggle .icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+}
+
+.mobile #mapToggle .icon {
+    top: 10px;
+    right: 10px;
+}
+
+#mapToggle .icon.on {
+    display: none;
+}
+
+#mapToggle .icon.off {
+    display: block;
+}
+
+#mapToggle.enabled .icon.on {
+    display: block;
+}
+
+#mapToggle.enabled .icon.off {
+    display: none;
+}
+
+.controlButton{
+    fill: white;
+}
+
 #logo {
-  display: block;
-  position: absolute;
-  right: 0px;
-  bottom: 0px;
-  width: 8rem;
+    display: block;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    width: 8rem;
 }

@@ -148,8 +148,9 @@ var APP_DATA = {
   "name": "Kuća Crno",
   "settings": {
     "mouseViewMode": "qtvr",
+        "deviceOrientationEnabled": true,
     "autorotateEnabled": true,
     "fullscreenButton": true,
-    "viewControlButtons": false
+    "viewControlButtons": true
   }
 };

@@ -1,18 +1,4 @@
-/*
- * Copyright 2016 Google Inc. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 'use strict';
 
 (function() {
@@ -20,6 +6,7 @@
   var bowser = window.bowser;
   var screenfull = window.screenfull;
   var data = window.APP_DATA;
+  var activeScene = null;
 
   // Grab elements from DOM.
   var panoElement = document.querySelector('#pano');
@@ -29,6 +16,8 @@
   var sceneListToggleElement = document.querySelector('#sceneListToggle');
   var autorotateToggleElement = document.querySelector('#autorotateToggle');
   var fullscreenToggleElement = document.querySelector('#fullscreenToggle');
+  var deviceOrientationToggleElement = document.querySelector('#deviceOrientationToggle');
+  var deviceOrientationControlMethod = new DeviceOrientationControlMethod();
 
   // Detect desktop or mobile mode.
   if (window.matchMedia) {
@@ -178,17 +167,30 @@
   controls.registerMethod('inElement',    new Marzipano.ElementPressControlMethod(viewInElement,  'zoom', -velocity, friction), true);
   controls.registerMethod('outElement',   new Marzipano.ElementPressControlMethod(viewOutElement, 'zoom',  velocity, friction), true);
 
+  // Register the custom control method.
+  controls.registerMethod('deviceOrientation', deviceOrientationControlMethod);
+
+  if (data.settings.deviceOrientationEnabled) {
+    deviceOrientationToggleElement.classList.add('enabled');
+    enable();
+  }
+  deviceOrientationToggleElement.addEventListener('click', toggleDeviceOrientation);
+
   function sanitize(s) {
     return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;');
   }
 
   function switchScene(scene) {
     stopAutorotate();
-    scene.view.setParameters(scene.data.initialViewParameters);
+    var initialViewParameters = scene.data.initialViewParameters;
+    scene.view.setParameters(initialViewParameters);
+    activeScene = scene;
     scene.scene.switchTo();
     startAutorotate();
     updateSceneName(scene);
     updateSceneList(scene);
+    updateMapImage(scene);
+    updateMarker(scene);
   }
 
   function updateSceneName(scene) {
@@ -219,6 +221,55 @@
   function toggleSceneList() {
     sceneListElement.classList.toggle('enabled');
     sceneListToggleElement.classList.toggle('enabled');
+  }
+
+
+  function requestPermissionForIOS() {
+
+    window.DeviceOrientationEvent.requestPermission()
+      .then(response => {
+        if (response === 'granted') {
+          enableDeviceOrientation();
+        }
+      }).catch((e) => {
+      console.error(e);
+    });
+  }
+
+  function enableDeviceOrientation() {
+    deviceOrientationControlMethod.getPitch(function (err, pitch) {
+      if (!err) {
+        activeScene.view.setPitch(pitch);
+      }
+    });
+    controls.enableMethod('deviceOrientation');
+  }
+
+  function enable() {
+    if (!deviceOrientationToggleElement.classList.contains('enabled')) {
+      return;
+    }
+    if (window.DeviceOrientationEvent) {
+      if (typeof (window.DeviceOrientationEvent.requestPermission) === 'function') {
+        requestPermissionForIOS();
+      } else {
+        enableDeviceOrientation();
+      }
+    }
+  }
+
+  function disable() {
+    controls.disableMethod('deviceOrientation');
+  }
+
+  function toggleDeviceOrientation() {
+    if (deviceOrientationToggleElement.classList.contains('enabled')) {
+      deviceOrientationToggleElement.classList.remove('enabled');
+      disable();
+    } else {
+      deviceOrientationToggleElement.classList.add('enabled');
+      enable();
+    }
   }
 
   function startAutorotate() {
