@@ -549,7 +549,7 @@ var APP_DATA = {
           "yaw": -0.829481792184362,
           "pitch": 0.016329089843633682,
           "rotation": 0,
-          "target": "5-open-space_2"
+          "target": "4-open-space_1"
         }
       ],
       "infoHotspots": []
@@ -591,7 +591,7 @@ var APP_DATA = {
           "yaw": -1.4794478476482738,
           "pitch": 0.13832818746816677,
           "rotation": 0,
-          "target": "5-open-space_2"
+          "target": "4-open-space_1"
         }
       ],
       "infoHotspots": []
